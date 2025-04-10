@@ -1,6 +1,7 @@
 import React from 'react';
 import ParamEditor from './components/ParamEditor';
 import { Param, Model } from './types';
+import './App.css'; 
 
 const params: Param[] = [
     { id: 1, name: 'Назначение', type: 'string' },
@@ -25,7 +26,7 @@ const App: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className="container">
             <h1>Редактор параметров</h1>
             <ParamEditor ref={editorRef} params={params} model={model} />
             <button onClick={handleGetModel}>Получить модель</button>

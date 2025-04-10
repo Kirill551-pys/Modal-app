@@ -37,8 +37,8 @@ class ParamEditor extends React.Component<Props, State> {
                 {params.map((param) => {
                     const currentValue = paramValues.find((pv) => pv.paramId === param.id)?.value || '';
                     return (
-                        <div key={param.id} style={{ marginBottom: '10px' }}>
-                            <label style={{ marginRight: '10px' }}>{param.name}:</label>
+                        <div key={param.id} className="param-item">
+                            <label>{param.name}:</label>
                             <input
                                 type="text"
                                 value={currentValue}
