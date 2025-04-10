@@ -1,26 +1,36 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import ParamEditor from './components/ParamEditor';
+import { Param, Model } from './types';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const params: Param[] = [
+    { id: 1, name: 'Назначение', type: 'string' },
+    { id: 2, name: 'Длина', type: 'string' },
+];
+
+const model: Model = {
+    paramValues: [
+        { paramId: 1, value: 'повседневное' },
+        { paramId: 2, value: 'макси' },
+    ],
+    colors: [],
+};
+
+const App: React.FC = () => {
+    const editorRef = React.useRef<ParamEditor | null>(null);
+
+    const handleGetModel = () => {
+        if (editorRef.current) {
+            console.log(editorRef.current.getModel());
+        }
+    };
+
+    return (
+        <div>
+            <h1>Редактор параметров</h1>
+            <ParamEditor ref={editorRef} params={params} model={model} />
+            <button onClick={handleGetModel}>Получить модель</button>
+        </div>
+    );
+};
 
 export default App;
