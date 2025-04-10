@@ -3,6 +3,7 @@ import { Param, ParamValue, Model, Props } from '../types';
 
 interface State {
     paramValues: ParamValue[];
+    errors: { [key: number]: string }; 
 }
 
 class ParamEditor extends React.Component<Props, State> {
@@ -10,14 +11,23 @@ class ParamEditor extends React.Component<Props, State> {
         super(props);
         this.state = {
             paramValues: [...props.model.paramValues],
+            errors: {},
         };
     }
 
     handleParamChange = (paramId: number, value: string) => {
+        const updatedErrors = { ...this.state.errors };
+        if (!value.trim()) {
+            updatedErrors[paramId] = 'Поле не может быть пустым';
+        } else {
+            delete updatedErrors[paramId];
+        }
+
         this.setState((prevState) => ({
             paramValues: prevState.paramValues.map((pv) =>
                 pv.paramId === paramId ? { ...pv, value } : pv
             ),
+            errors: updatedErrors,
         }));
     };
 
@@ -30,7 +40,7 @@ class ParamEditor extends React.Component<Props, State> {
 
     render() {
         const { params } = this.props;
-        const { paramValues } = this.state;
+        const { paramValues, errors } = this.state;
 
         return (
             <div>
@@ -44,6 +54,7 @@ class ParamEditor extends React.Component<Props, State> {
                                 value={currentValue}
                                 onChange={(e) => this.handleParamChange(param.id, e.target.value)}
                             />
+                            {errors[param.id] && <span style={{ color: 'red' }}>{errors[param.id]}</span>}
                         </div>
                     );
                 })}
